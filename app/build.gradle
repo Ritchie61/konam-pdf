@@ -1,0 +1,55 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    namespace 'com.komam.pdf'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.komam.pdf"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "0.1"
+
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
+
+        externalNativeBuild {
+            cmake {
+                // path is configured in native/CMakeLists.txt
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path file('../native/CMakeLists.txt')
+            version "3.22.1"
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs'] // prebuilt .so can be placed here
+            assets.srcDirs = ['src/main/assets', '../python/assets']
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.0"
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+}
