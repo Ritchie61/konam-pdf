@@ -2,11 +2,17 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        // START: Chaquopy Configuration
+        maven { url "https://chaquo.com/m2" }
+        // END: Chaquopy Configuration
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.0'
         // Add Kotlin Gradle plugin if using Kotlin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"
+        // START: Chaquopy Configuration
+        classpath "com.chaquo.python:gradle:15.0.1" // Use the version matching the module dependency
+        // END: Chaquopy Configuration
     }
 }
 
@@ -14,5 +20,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        // START: Chaquopy Configuration
+        maven { url "https://chaquo.com/m2" }
+        // END: Chaquopy Configuration
     }
 }
