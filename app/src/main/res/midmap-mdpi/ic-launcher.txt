@@ -1,0 +1,1 @@
+hdpi.png is renamed ic_launcjer.png
