@@ -1,6 +1,14 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
+apply plugin: 'com.android.application'
+apply plugin: 'com.chaquo.python' // 1. Apply the Chaquopy Plugin
+
+// Define the location of your Python source code files
+// We assume your Python files will be in 'app/src/main/python'
+python {
+    pip {
+        // Add any Python packages you need here, e.g., numpy or pillow
+        // install "numpy"
+    }
+    buildPython '3.10' // Specify the Python version to use
 }
 
 android {
@@ -12,16 +20,11 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 1
-        versionName "0.1"
+        versionName "1.0"
 
+        // Chaquopy configuration for ABI support
         ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a"
-        }
-
-        externalNativeBuild {
-            cmake {
-                // path is configured in native/CMakeLists.txt
-            }
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
     }
 
@@ -31,25 +34,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    externalNativeBuild {
-        cmake {
-            path file('../native/CMakeLists.txt')
-            version "3.22.1"
-        }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs'] // prebuilt .so can be placed here
-            assets.srcDirs = ['src/main/assets', '../python/assets']
-        }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.0"
-    implementation 'androidx.core:core-ktx:1.10.1'
+    // Standard dependencies
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // Chaquopy dependency (use the latest version)
+    // NOTE: Make sure the version below is compatible with your Gradle version.
+    implementation 'com.chaquo.python:chaquopy:15.0.1' 
 }
